@@ -1,7 +1,6 @@
 from board import init_postion, get_legal_moves, serch, show_board
 from ai import randomai_1, randomai_2
-from hearvest import evaluate
-from earch_ai import minimax_ai
+from earch_ai import old_ai, new_ai
 import csv
 import json
 
@@ -14,15 +13,15 @@ def select(num, player, legal_moves, matrix):
 
     if player == 1:
         print(f"置ける場所: {legal_moves}")
-        return randomai_2(legal_moves)
+        return new_ai(matrix, player, depth=3)
     else:
         print(f"置ける場所: {legal_moves}")
-        return minimax_ai(matrix, player, depth=3)
+        return new_ai(matrix, player, depth=3)
 
 
 def main():
-    ley = 4
-    row = 4
+    ley = 8
+    row = 8
 
     matrix = init_postion(ley, row)
 
@@ -65,16 +64,12 @@ def main():
                     "x": position[1],
                     "player1_stones": player1_score,
                     "player2_stones": player2_score,
-                    "eval_bot1": evaluate(matrix, 1),
-                    "eval_bot2": evaluate(matrix, 2),
                     "board": json.dumps(matrix.tolist()),
                 }
             )
 
             player = 3 - player
             num += 1
-            print("Bot 1の評価値:", evaluate(matrix, 1))
-            print("Bot 2の評価値:", evaluate(matrix, 2))
 
     # ゲーム終了
     show_board(matrix)

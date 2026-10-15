@@ -3,12 +3,12 @@ import time
 
 from board import init_postion, get_legal_moves, serch
 from ai import randomai_2
-from earch_ai import minimax_ai
+from earch_ai import old_ai, new_ai
 
 
 def play_one_game(game_number, random_player, depth=3):
     # 初期盤面を作成
-    matrix = init_postion(4, 4)
+    matrix = init_postion(6, 6)
 
     player = 1
     consecutive_passes = 0
@@ -30,13 +30,19 @@ def play_one_game(game_number, random_player, depth=3):
 
         # ランダムAIの手番
         if player == random_player:
-            position = randomai_2(legal_moves)
 
+            start_time = time.perf_counter()
+
+            position = new_ai(matrix, player, depth=depth)
+
+            elapsed = time.perf_counter() - start_time
+            minimax_time += elapsed
+            minimax_moves += 1
         # ミニマックスAIの手番
         else:
             start_time = time.perf_counter()
 
-            position = minimax_ai(matrix, player, depth=depth)
+            position = new_ai(matrix, player, depth=depth)
 
             elapsed = time.perf_counter() - start_time
             minimax_time += elapsed
@@ -65,9 +71,9 @@ def play_one_game(game_number, random_player, depth=3):
     if winner == 0:
         result = "引き分け"
     elif winner == random_player:
-        result = "ランダムAI勝利"
+        result = "new1AI勝利"
     else:
-        result = "ミニマックスAI勝利"
+        result = "new2AI勝利"
 
     avg_time = minimax_time / minimax_moves if minimax_moves > 0 else 0.0
 
@@ -119,9 +125,9 @@ def main():
         writer.writerows(results)
 
     # 勝敗を集計
-    minimax_wins = sum(r["result"] == "ミニマックスAI勝利" for r in results)
+    minimax_wins = sum(r["result"] == "newAI2勝利" for r in results)
 
-    random_wins = sum(r["result"] == "ランダムAI勝利" for r in results)
+    random_wins = sum(r["result"] == "new1AI勝利" for r in results)
 
     draws = sum(r["result"] == "引き分け" for r in results)
 
@@ -150,10 +156,10 @@ def main():
         writer.writerow(summary)
 
     print("\n===== 100試合の集計 =====")
-    print(f"ミニマックスAI勝利: {minimax_wins}")
-    print(f"ランダムAI勝利:     {random_wins}")
-    print(f"引き分け:           {draws}")
-    print("ミニマックスAI勝率: " f"{summary['minimax_win_rate_percent']:.1f}%")
+    print(f"new2AI勝利: {minimax_wins}")
+    print(f"new1AI勝利: {random_wins}")
+    print(f"引き分け:   {draws}")
+    print("newAI勝率: " f"{summary['minimax_win_rate_percent']:.1f}%")
     print("1手あたりの平均思考時間: " f"{summary['avg_minimax_time_per_move_s']:.6f}秒")
     print("\nCSVを保存しました。")
     print("experiment_results.csv")

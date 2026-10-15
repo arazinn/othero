@@ -1,2 +1,0 @@
-﻿total_games,depth,minimax_wins,random_wins,draws,minimax_win_rate_percent,random_win_rate_percent,draw_rate_percent,avg_minimax_time_per_move_s,avg_minimax_time_per_game_s
-100,3,73,20,7,73.0,20.0,7.000000000000001,0.0010532186528246982,0.006098135999855004

@@ -1,13 +1,14 @@
 from board import init_postion, get_legal_moves, serch, show_board
 from ai import randomai_1, randomai_2
 from hearvest import evaluate
+from earch_ai import minimax_ai
 import csv
 import json
 
 history = []
 
 
-def select(num, player, legal_moves):
+def select(num, player, legal_moves, matrix):
     """プレイヤーから座標を入力してもらう"""
     print(f"\n{num}回目のターン")
 
@@ -16,7 +17,7 @@ def select(num, player, legal_moves):
         return randomai_2(legal_moves)
     else:
         print(f"置ける場所: {legal_moves}")
-        return randomai_1(legal_moves)
+        return minimax_ai(matrix, player, depth=3)
 
 
 def main():
@@ -46,7 +47,7 @@ def main():
         # 石を置けた場合は連続パスをリセット
         consecutive_passes = 0
 
-        position = select(num, player, legal_moves)
+        position = select(num, player, legal_moves, matrix)
 
         if serch(position, player, matrix):
             player1_score = int((matrix == 1).sum())

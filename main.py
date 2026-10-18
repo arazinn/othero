@@ -1,6 +1,6 @@
 from board import init_postion, get_legal_moves, serch, show_board
 from ai import randomai_1, randomai_2
-from earch_ai import old_ai, new_ai
+from earch_ai import old_ai, new_ai, new_ai_eve5
 import csv
 import json
 

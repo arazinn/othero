@@ -3,7 +3,7 @@ import time
 
 from board import init_postion, get_legal_moves, serch
 from ai import randomai_2
-from earch_ai import old_ai, new_ai
+from earch_ai import old_ai, new_ai, new_ai_eve5
 
 
 def play_one_game(game_number, random_player, depth=3):
@@ -33,7 +33,7 @@ def play_one_game(game_number, random_player, depth=3):
 
             start_time = time.perf_counter()
 
-            position = new_ai(matrix, player, depth=depth)
+            position = new_ai_eve5(matrix, player, depth=depth)
 
             elapsed = time.perf_counter() - start_time
             minimax_time += elapsed
